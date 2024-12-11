@@ -34,6 +34,10 @@ In both digital and analog design, CMOS inverters serve as versatile components 
 
 #### Software of Use: Cadence Virtuoso
 
+
+
+
+
 ## Theory ( know about Inverter)
 A simple inverter inverts the logically high input to low output and vice versa. It is of immense significance in clock generation, generation of delays, memories to store the data, improving the circuit's noise immunity, and much more. It is a simple two transistor device. For input 0, PMOS turns ON, and NMOS stays OFF. This charges the output capacitance, thus making output logic HIGH. Whereas for input 1, PMOS is OFF, and NMOS is ON. The charged capacitance now discharges, making output logic LOW. On a periodic application of pulse, an inverted pulse is obtained at the output. The in-depth analysis of the output on logic 0 to 1 at the input is summed up by its Voltage Transfer Characteristics (VTC).
 
@@ -70,59 +74,123 @@ Propagation Delay or tp: It is (tpHL + tpLH)/2.
 
 Contamination Delay or tcd: It is the smallest time from the 50% input crossing to the 50% output crossing
 
-## MY WORK 
+## My Work on CMOS Inverter 
+
+1. [DC Response (VTC Curve)](#1-dc-response-vtc-curve)  
+2. [Transient Response Without Load Capacitor (Propagation Delay)](#2-transient-response-without-load-capacitor-propagation-delay)  
+3. [Effect of W/L on Transfer Characteristics](#3-effect-of-wl-on-transfer-characteristics)  
+4. [DC Current with Varying Wp (Width of PMOS)](#4-dc-current-with-varying-wp-width-of-pmos)  
+5. [Transient Response With Load Capacitor (Propagation Delay)](#5-transient-response-with-load-capacitor-propagation-delay)  
+6. [Static and Dynamic Power Calculation from Simulation](#6-static-and-dynamic-power-calculation-from-simulation)  
+7. [Effect of W/L on Power Consumption](#7-effect-of-wl-on-power-consumption)  
+8. [Layout](#8-layout)
+
 
 I used the gpdk 40nm library in Cadence virtuoso, conducting transient and DC analysis on the inverter. I calculated parameters such as power consumption, rise time, and propagation delay for the inverter.
 Fun part was analysing the effect of W/L ratio, Power supply and fanout on these parameters. Some of the notable conclusions are:
 
+![InverterSchematic](https://github.com/user-attachments/assets/1515d431-682a-454e-b42d-b92f0ac238ba)
 
 
-**(1) DC Response (VTC Curve):**
+
+### 1. DC Response (VTC Curve)
 The DC response of an inverter characterizes its static behavior by plotting the output voltage against the input voltage, resulting in the Voltage Transfer Characteristic (VTC) curve, which defines key parameters such as the switching threshold, noise margins, and gain. Alongside the VTC curve, the drain current (Id) versus input voltage graph provides insights into the operating regions of the transistors (cutoff, linear, and saturation) during switching, enabling a comprehensive understanding of the inverter's performance.
 
 ![dc output](https://github.com/user-attachments/assets/eb19b4fc-d56b-43ec-8721-6f92a25a686e)
 
 
-**(2) Transient Response ( Propagation Delay ):**
+### 2. Transient Response Without Load Capacitor (Propagation Delay)
 The transient response of an inverter analyzes its output behavior over time during input transitions, highlighting dynamic performance. The propagation delay, measured as the average of rise and fall delays, determines the inverter's speed and timing efficiency.
 
 ![Trans ckt](https://github.com/user-attachments/assets/6bc1b62c-151d-444b-908f-373a9f040e36)
 
+
 Input Pulse voltage specification - 0 to 1 volt , Time period = 20ns , Rise Time and Fall Time = 50ps
 
-**CASE-1:  Propagation Delay for Wp=120nm Wn=120nm (keep length = 40nm)**
+#### CASE-1:  Propagation Delay for Wp=120nm Wn=120nm (keep length = 40nm)
 
-The propagation delay from high to low or tpHL: 11.8684 ps
-The propagation delay from low to high or tpLH: 6.0990 ps
-# Propagation delay = 8.9837 psec 
-
-**CASE-2:  Propagation Delay for Wp=240nm Wn=120nm (keep length = 40nm)**
-
-The propagation delay from high to low or tpHL: 7.5661 ps
-The propagation delay from low to high or tpLH: 8.9797 ps
-# Propagation delay = 8.2729 psec 
+![rise and fall time](https://github.com/user-attachments/assets/73b2a3a5-17f7-4c64-8ff1-d915936e9208)
 
 
-### (3) LVS
+The propagation delay from high to low or tpHL: 6.099 ps
+The propagation delay from low to high or tpLH: 11.868 ps
+**Propagation delay = 8.98 psec**
 
-![image](https://github.com/Rahulprakash77/CMOS-INVERTER-DESIGN-/assets/130161648/f536f938-2b71-44cf-8f29-7a67ad754a3e)
+#### CASE-2:  Propagation Delay for Wp=240nm Wn=120nm (keep length = 40nm)
 
-### (4) Effect of W/L ratio
-![image](https://github.com/Rahulprakash77/CMOS-INVERTER-DESIGN-/assets/130161648/ce2fc74a-7068-42c9-aa7f-9e8c0933164c)
+![rise and fall time (1)](https://github.com/user-attachments/assets/3500d8ab-1289-4d84-ba79-dab7685b4754)
 
-### (5) Effect of W/L on Transfer charecteristics
 
-![image](https://github.com/Rahulprakash77/CMOS-INVERTER-DESIGN-/assets/130161648/0d18fb88-b305-4ac4-b7d4-801ae2c579b2)
-### (6) Effect of W/L on Power consumption
+The propagation delay from high to low or tpHL: 7.56 ps
+The propagation delay from low to high or tpLH: 8.979 ps
+**Propagation delay = 8.272 psec**
+
+
+### 3. Effect of W/L on Transfer Characteristics
+The impact of changing the W/L ratio...
+![variable_Wp DC response](https://github.com/user-attachments/assets/e5b8a28a-3933-42b4-9f33-b37042ef469a)
+
+
+### 4. DC Current with Varying Wp (Width of PMOS)
+Analyzing the current behavior...
+![variable_Wp current responce](https://github.com/user-attachments/assets/7d15e9b5-d120-42bb-842d-210505fbf301)
+
+### 5. Transient Response With Load Capacitor (Propagation Delay)
+The transient response of an inverter analyzes its output behavior over time during input transitions, highlighting dynamic performance. The propagation delay, measured as the average of rise and fall delays, determines the inverter's speed and timing efficiency. 
+**CL = 10fF**
+![PowerAnalysis ckt](https://github.com/user-attachments/assets/83608948-8783-412a-886c-814eb09f7128)
+
+
+Input Pulse voltage specification - 0 to 1 volt , Time period = 20ns , Rise Time and Fall Time = 50ps
+
+#### CASE-1:  Propagation Delay for Wp=120nm Wn=120nm (keep length = 40nm)
+
+![Inverter1-1_trans2](https://github.com/user-attachments/assets/2f7bacb5-28ac-404f-bb74-0083bbef98d5)
+
+The propagation delay from high to low or tpHL: 84.9 ps
+The propagation delay from low to high or tpLH: 165.6 ps
+**Propagation delay = 125 psec**
+
+#### CASE-2:  Propagation Delay for Wp=240nm Wn=120nm (keep length = 40nm)
+
+![Inverter2-1_trans2](https://github.com/user-attachments/assets/12358079-224d-4223-9d32-263a0f98d4c2)
+
+
+The propagation delay from high to low or tpHL: 85.4 ps
+The propagation delay from low to high or tpLH: 96.3 ps
+**Propagation delay = 90.8 psec**
+
+### 6. Static and Dynamic Power Calculation from Simulation
+**Vdd = 1.1 volt , Cl = 10fF , Time period = 20ns , Frequency = 50 MHz**
+
+#### CASE-1: For Wp(Width of Pmos) = 120nm , Wn(Width of Nmos) = 120nm  length = 40nm 
+
+
+𝗗𝗬𝗡𝗔𝗠𝗜𝗖 𝗣𝗢𝗪𝗘𝗥  ( 𝗦𝘄𝗶𝘁𝗰𝗵𝗶𝗻𝗴 𝗣𝗼𝘄𝗲𝗿 = 𝟱𝟭𝟬.𝟮 𝗻𝗪 , 
+               𝗦𝗵𝗼𝗿𝘁 𝗖𝗶𝗿𝗰𝘂𝗶𝘁 𝗣𝗼𝘄𝗲𝗿 = 𝟮.𝟵𝟯𝟮 𝘂𝗪 }
+
+𝗦𝗧𝗔𝗧𝗜𝗖 𝗣𝗢𝗪𝗘𝗥  (𝗟𝗲𝗮𝗸𝗮𝗴𝗲 𝗣𝗼𝘄𝗲𝗿 = 𝟬.𝟭𝟭𝟯 𝗻𝗪 ) 
+
+𝗧𝗼𝘁𝗮𝗹 𝗣𝗼𝘄𝗲𝗿 = 𝟯.𝟰𝟯𝟯 𝘂𝗪
+
+
+#### CASE-2: For Wp(Width of Pmos) = 240nm , Wn(Width of Nmos) = 120nm  length = 40nm 
+
+𝗗𝗬𝗡𝗔𝗠𝗜𝗖 𝗣𝗢𝗪𝗘𝗥  ( 𝗦𝘄𝗶𝘁𝗰𝗵𝗶𝗻𝗴 𝗣𝗼𝘄𝗲𝗿 = 𝟱𝟭𝟬 𝗻𝗪 , 
+               𝗦𝗵𝗼𝗿𝘁 𝗖𝗶𝗿𝗰𝘂𝗶𝘁 𝗣𝗼𝘄𝗲𝗿 = 𝟰.𝟬𝟲𝟯 𝘂𝗪 }
+
+𝗦𝗧𝗔𝗧𝗜𝗖 𝗣𝗢𝗪𝗘𝗥  (𝗟𝗲𝗮𝗸𝗮𝗴𝗲 𝗣𝗼𝘄𝗲𝗿 = 𝟬.𝟰𝟮𝟬 𝗻𝗪 ) 
+
+𝗧𝗼𝘁𝗮𝗹 𝗣𝗼𝘄𝗲𝗿 = 𝟰.𝟱𝟳𝟯 𝘂𝗪
+
+
+### 7. Effect of W/L on Power Consumption
+
 ![image](https://github.com/Rahulprakash77/CMOS-INVERTER-DESIGN-/assets/130161648/ef8dd65e-c751-416d-b72a-f348a65d5be8)
-### (7) Effect of Vdd on power consumption
-![image](https://github.com/Rahulprakash77/CMOS-INVERTER-DESIGN-/assets/130161648/d1ab45e3-041f-47c4-99b9-a9c8a28f507e)
 
-### (8) Effect of load capacitance on rise time
-![image](https://github.com/Rahulprakash77/CMOS-INVERTER-DESIGN-/assets/130161648/911da1cc-a54a-488b-9a6b-1720f2f94af4)
+### 8. Layout
+The layout diagram for the CMOS inverter design...
 
-### (9) Noise Margin parameter
-![image](https://github.com/Rahulprakash77/CMOS-INVERTER-DESIGN-/assets/130161648/f225c53c-a186-4604-ae54-24ecf12a4016)
-
-### (10) Layout
 ![image](https://github.com/Rahulprakash77/CMOS-INVERTER-DESIGN-/assets/130161648/5a15f023-bfce-48c4-8c33-c29c1a9c713e)
+
+
